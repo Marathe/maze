@@ -9,6 +9,8 @@ import random
 
 from maze import Goody, UP, DOWN, LEFT, RIGHT, STAY, PING, Baddy
 
+from numpy.random import choice
+
 class StaticGoody(Goody):
     ''' A static goody - does not move from its initial position '''
 
@@ -73,17 +75,14 @@ class MoveTowards(Goody):
 		return filter(lambda direction: not obstruction[direction], directions)
 	
 	def weightedChoice(self, choices):
+		
 		print choices
 		total = 0
 		for c,w in choices.iteritems():
 			total = total+ w
-		r = random.uniform(0, total)
-		upto = 0
-		for c, w in choices.iteritems():
-			if upto + w >= r:
-				return c
-			upto += w
-		assert False, "Shouldn't get here"
+		print [w/total for c,w in choices.iteritems()]
+		print choice(choices.keys(), 1, [w/total for c,w in choices.iteritems()])[0]
+		return choice(choices.keys(), 1, [w/total for c,w in choices.iteritems()])[0]
    
 	def take_turn(self, obstruction, _ping_response):
 		decision = None
@@ -109,8 +108,8 @@ class MoveTowards(Goody):
 				
 				directionWeights = {UP: 2, DOWN: 2, LEFT: 2, RIGHT: 2 }
 				
-				#for d in repeatedDirections:
-				#	directionWeights[d] = directionWeights[d] - .8
+				for d in repeatedDirections:
+					directionWeights[d] = directionWeights[d] - .4
 				for d in goodDirections:
 					directionWeights[d] = directionWeights[d] + .8
 				for d in badDirections:
