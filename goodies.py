@@ -162,7 +162,7 @@ class MoveTowards(Goody):
 					for d in goodDirections:
 						directionWeights[d] = directionWeights[d] + .8
 					for d in badDirections:
-						directionWeights[d] = directionWeights[d] - .8
+						directionWeights[d] = directionWeights[d] - .6
 					for d in notPossibleDirections:
 						directionWeights[d] = 0
 				
